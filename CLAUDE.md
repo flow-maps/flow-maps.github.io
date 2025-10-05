@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Type
 
-This is a **static HTML template** for academic research project pages. There is no build system, package manager, or backend - just HTML, CSS, and JavaScript files that can be opened directly in a browser.
+Static HTML project page for the Flow Maps research paper. No build system - just HTML, CSS, and JavaScript served directly.
 
 ## Preview Command
 
@@ -13,84 +13,78 @@ python -m http.server 8000
 # Then open http://localhost:8000
 ```
 
-Or simply open `index.html` directly in a browser (some features work better with a local server).
+Or open `index.html` directly in a browser.
 
 ## Architecture
 
-**Single-page HTML application** (`index.html`) with:
-- Bulma CSS framework (already included in `static/css/`)
+**Single-page application** with:
+- Bulma CSS framework (in `static/css/`)
 - jQuery for DOM manipulation
-- Bulma-carousel and bulma-slider plugins for interactive components
+- Bulma-carousel and bulma-slider plugins
 - Font Awesome and Academicons for icons
 
-**No build process** - edit HTML directly and refresh browser.
+**Direct editing workflow**: Edit `index.html`, refresh browser. No compilation step.
 
-## Customization Workflow
+## Content Customization
 
-All customization points are marked with `<!-- TODO: ... -->` comments in `index.html`. When helping users customize:
+Search for `<!-- TODO: ... -->` comments in `index.html` to find all customization points:
 
-1. **Search for "TODO"** in index.html to find all placeholder content
-2. **Key sections** to update (in order):
-   - Metadata: lines 4-11 (title, description, keywords)
-   - Authors/affiliations: lines 77-94
-   - Paper links: lines 97-148 (arXiv, PDF, code, data)
-   - Abstract: lines 210-222
-   - BibTeX: lines 353-359
-   - Footer: lines 367-374
+- **Metadata** (lines ~5-12): Title, description, keywords
+- **Authors** (lines ~78-95): Names, homepages, affiliations
+- **Links** (lines ~98-148): arXiv, PDF, code, dataset URLs
+- **Abstract** (lines ~210-222): Paper abstract
+- **BibTeX** (lines ~353-359): Citation
 
-3. **Media files** users need to add:
-   - `static/videos/teaser.mp4` - main demo video
-   - `static/videos/result1.mp4`, `result2.mp4`, `result3.mp4` - carousel
-   - `static/videos/method.mp4`, `results.mp4` - additional sections
-   - Optional: interpolation frames in `static/interpolation/stacked/` (000000.jpg through 000239.jpg)
-   - Optional: `static/images/interpolate_start.jpg` and `interpolate_end.jpg`
+## Media Assets
 
-4. **Sections users may want to remove**:
-   - Results carousel: lines 174-200
-   - Method/Results columns: lines 247-279
-   - Interpolation slider: lines 281-322
-   - Related Links: lines 325-344
+**Current state**:
+- ✓ Interpolation frames: 240 frames in `static/interpolation/stacked/` (000000.jpg to 000239.jpg)
+- ✗ Videos: Need to add to `static/videos/`:
+  - `teaser.mp4` - main teaser
+  - `result1.mp4`, `result2.mp4`, `result3.mp4` - results carousel
+  - `method.mp4`, `results.mp4` - method/results sections
 
-## Interactive Features
+**Optional**:
+- Start/end images for interpolation: `static/images/interpolate_start.jpg`, `interpolate_end.jpg`
 
-**Image Interpolation Slider** (optional feature):
-- JavaScript: `static/js/index.js` lines 3-13, 68-74
-- Expects frames in `static/interpolation/stacked/` numbered 000000.jpg to 000239.jpg
-- Frame count configurable via `NUM_INTERP_FRAMES` variable (line 4 of index.js)
-- If users don't need this, they can delete the entire interpolation section from HTML
+## Interactive Components
 
-**Video Carousel**:
-- Uses bulma-carousel plugin (already loaded)
-- Automatically initializes on page load
-- Add/remove carousel items by editing the HTML (lines 179-196)
+**Interpolation Slider** (`static/js/index.js`):
+- Preloads 240 frames on page load (line 4: `NUM_INTERP_FRAMES`)
+- Controlled by slider input (lines 70-74)
+- Update frame count by changing `NUM_INTERP_FRAMES` if regenerating interpolation
 
-## Common Tasks
+**Video Carousel** (lines ~174-200 in HTML):
+- Auto-initializes via bulma-carousel plugin
+- Configuration in `static/js/index.js` lines 32-42 (slides per view, autoplay, etc.)
+- Add/remove videos by duplicating `.item` divs in HTML
 
-**Add a new video to carousel**: Copy one of the `.item` divs (lines 179-184) and update the video source and ID.
+## Removing Sections
 
-**Change number of interpolation frames**: Edit `NUM_INTERP_FRAMES` in `static/js/index.js` line 4.
+To remove unused sections, delete entire blocks:
+- Results carousel: lines ~174-200
+- Method/Results columns: lines ~247-279
+- Interpolation slider: lines ~281-322
+- Related links: lines ~325-344
 
-**Remove a section**: Delete the entire `<section>` or `<div class="columns">` block. The page will automatically reflow.
+Page will reflow automatically.
 
-**Add Google Analytics**: Users can add their tracking code at line 13 where the TODO comment is.
-
-## File Organization
+## File Structure
 
 ```
-index.html              # Main page - only file users need to edit
+index.html              # Main page (edit this)
 static/
-├── css/               # Framework files - don't modify
-├── js/                # Plugins + custom code - only edit index.js
-├── images/            # User adds their images here
-├── videos/            # User adds their videos here (currently empty)
-└── interpolation/     # Optional: user adds frame sequences here
-    └── stacked/
+├── css/               # Bulma framework (don't edit)
+├── js/
+│   └── index.js       # Custom interactions (edit for frame count, carousel config)
+├── images/            # Static images
+├── videos/            # MP4 files (add yours here)
+└── interpolation/
+    └── stacked/       # 240 interpolation frames (already populated)
 ```
 
 ## Important Notes
 
-- **No dependencies to install** - everything is self-contained
-- **Line numbers** in comments are approximate and may shift as users edit
-- **Videos won't load** if files don't exist - users need to add their own media
-- **Interpolation slider** will show "Loading..." if frames don't exist - this is expected for the template
-- The template is based on Nerfies project page - footer attribution should remain per CC BY-SA 4.0 license
+- Line numbers are approximate and shift as content changes
+- Based on Nerfies project page template - keep footer attribution (CC BY-SA 4.0)
+- Videos won't display until files exist in `static/videos/`

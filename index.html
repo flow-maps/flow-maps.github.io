@@ -2,14 +2,11 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <!-- TODO: Update the description below with your project description -->
   <meta name="description"
-        content="A short description of your project that will appear in search results.">
-  <!-- TODO: Update keywords relevant to your research -->
-  <meta name="keywords" content="Machine Learning, Computer Vision, Your Keywords">
+        content="A unified framework for learning consistency models via self-distillation. We introduce Lagrangian, Eulerian, and Progressive methods, with Lagrangian Self-Distillation (LSD) achieving state-of-the-art few-step generation.">
+  <meta name="keywords" content="Machine Learning, Generative Models, Consistency Models, Flow Matching, Diffusion Models, Fast Sampling">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- TODO: Update with your project title -->
-  <title>Your Project Title</title>
+  <title>Flow Maps via Self-Distillation</title>
 
   <!-- TODO: Add your Google Analytics tracking code here if needed, otherwise delete this comment -->
 
@@ -24,6 +21,17 @@
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/favicon.svg">
+
+  <!-- KaTeX for LaTeX rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });"></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
@@ -43,29 +51,7 @@
   </div>
   <div class="navbar-menu">
     <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <!-- TODO: Update with link to your homepage -->
-      <a class="navbar-item" href="https://your-homepage.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <!-- TODO: Optionally add a dropdown for related research projects -->
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://your-project-1.github.io">
-            Project 1
-          </a>
-          <a class="navbar-item" href="https://your-project-2.github.io">
-            Project 2
-          </a>
-        </div>
-      </div>
     </div>
-
   </div>
 </nav>
 
@@ -75,31 +61,28 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <!-- TODO: Update with your paper title -->
-          <h1 class="title is-1 publication-title">Your Project Title</h1>
+          <h1 class="title is-1 publication-title">How to build a consistency model:<br>Learning flow maps via self-distillation</h1>
           <div class="is-size-5 publication-authors">
-            <!-- TODO: Update author names and links. Use <sup> for affiliation numbers -->
             <span class="author-block">
-              <a href="https://author1-homepage.com">Author Name 1</a><sup>1</sup>,</span>
+              <a href="https://nmboffi.github.io">Nicholas M. Boffi</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="https://author2-homepage.com">Author Name 2</a><sup>2</sup>,</span>
+              <a href="https://malbergo.me">Michael S. Albergo</a><sup>2</sup>,</span>
             <span class="author-block">
-              <a href="https://author3-homepage.com">Author Name 3</a><sup>1</sup>
+              <a href="https://www.cims.nyu.edu/~eve2/">Eric Vanden-Eijnden</a><sup>3</sup>
             </span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <!-- TODO: Update institution names -->
-            <span class="author-block"><sup>1</sup>Your Institution,</span>
-            <span class="author-block"><sup>2</sup>Another Institution</span>
+            <span class="author-block"><sup>1</sup>Carnegie Mellon University,</span>
+            <span class="author-block"><sup>2</sup>Harvard University,</span>
+            <span class="author-block"><sup>3</sup>Courant Institute of Mathematical Sciences and Capital Fund Management</span>
           </div>
 
           <div class="column has-text-centered">
             <div class="publication-links">
-              <!-- TODO: Update links to your paper resources -->
               <!-- PDF Link. -->
               <span class="link-block">
-                <a href="https://arxiv.org/pdf/XXXX.XXXXX"
+                <a href="https://arxiv.org/pdf/2505.18825"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -108,7 +91,7 @@
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://arxiv.org/abs/XXXX.XXXXX"
+                <a href="https://arxiv.org/abs/2505.18825"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="ai ai-arxiv"></i>
@@ -116,19 +99,9 @@
                   <span>arXiv</span>
                 </a>
               </span>
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=XXXXXXXXXXX"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span>
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://github.com/YOUR_USERNAME/YOUR_REPO"
+                <a href="https://github.com/nmboffi/flow-maps"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -136,15 +109,6 @@
                   <span>Code</span>
                   </a>
               </span>
-              <!-- Dataset Link. -->
-              <span class="link-block">
-                <a href="https://github.com/YOUR_USERNAME/YOUR_REPO"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
             </div>
 
           </div>
@@ -157,86 +121,77 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <!-- TODO: Replace with your teaser video -->
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
-      <!-- TODO: Update the teaser caption -->
+      <img src="./static/images/overview.png" alt="Flow map overview" style="width: 100%;">
       <h2 class="subtitle has-text-centered">
-        A short, compelling description of what your method does.
+        <b>Overview.</b> The tangent condition connects flow maps to velocity fields, enabling direct training of consistency models without pre-trained teachers.
       </h2>
     </div>
   </div>
 </section>
 
 
-<!-- TODO: Results carousel - replace videos with your own or remove this section -->
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-1">
-          <video poster="" id="video1" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/result1.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-2">
-          <video poster="" id="video2" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/result2.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-3">
-          <video poster="" id="video3" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/result3.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 
 <section class="section">
   <div class="container is-max-desktop">
-    <!-- Abstract. -->
+    <!-- Method Video -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
+        <h2 class="title is-3">Method Overview</h2>
+        <div class="publication-video">
+          <video id="method-video" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/flow_maps_method.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    <!--/ Method Video. -->
+
+    <div class="columns is-centered has-text-centered" style="margin-top: 2em;">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Introduction</h2>
         <div class="content has-text-justified">
-          <!-- TODO: Replace with your paper's abstract -->
           <p>
-            This is the first paragraph of your abstract. Introduce the problem you're solving
-            and why it's important.
+            Flow-based generative models achieve state-of-the-art sample quality, but require expensive differential equation solves at inference time.
+            <b>Flow maps</b>, which generalize consistency models, learn to jump directly between points on flow trajectories, enabling one or few-step generation.
+            Yet despite their promise, these models lack a unified framework for efficient training.
           </p>
           <p>
-            This is the second paragraph. Describe your approach and key technical contributions.
-            Highlight what makes your method novel or different from prior work.
+            We introduce such a mathematical framework, leading to <b>three algorithmic families</b> for learning flow maps:
+            <b>Eulerian</b>, <b>Lagrangian</b>, and <b>Progressive</b> methods.
+            Our approach converts any distillation scheme into a direct training algorithm by exploiting the <i>tangent condition</i> -- a simple relation between the flow map and its implicit velocity field. This eliminates the need for pre-trained teacher models while maintaining the training stability of distillation.
           </p>
           <p>
-            This is the third paragraph. Summarize your main results and what you demonstrate
-            in your experiments. Include key quantitative or qualitative findings.
+            Theoretically, we show that our approach reveals a new class of high-performing methods, recovers many known methods for training flow maps (including consistency training, consistency distillation, shortcut models, align your flow, and mean flow), and provides significant insight into the design of training algorithms for flow maps.
+            We test all approaches through numerical experiments on low-dimensional synthetic datasets, CIFAR-10, CelebA-64, and AFHQ-64, where we find that the class of Lagrangian methods uniformly outperforms both Eulerian and Progressive schemes.
           </p>
         </div>
       </div>
     </div>
     <!--/ Abstract. -->
 
-    <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
+    <!-- Key Contributions -->
+    <div class="columns is-centered" style="margin-top: 2em;">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <!-- TODO: Replace with your YouTube video ID -->
-          <iframe src="https://www.youtube.com/embed/XXXXXXXXXXX?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <h2 class="title is-3">Key Contributions</h2>
+        <div class="content has-text-justified">
+          <ol>
+            <li>
+              <b>Unified framework</b>: We provide, to our knowledge, the most general mathematical characterization of consistency models,
+              showing both how to design new learning algorithms and how existing methods emerge as special cases.
+            </li>
+            <li>
+              <b>Self-distillation</b>: We describe how to convert any distillation scheme into a direct training algorithm via the tangent condition,
+              eliminating the need for pre-trained teacher models and two-phase training.
+            </li>
+            <li>
+              <b>Lagrangian Self-Distillation</b>: We introduce Lagrangian Self-Distillation (LSD), which simultaneously avoids the computation of spatial derivatives of the model and reliance on bootstrapping from multiple model steps. We show that this approach achieves superior theoretical guarantees and uniformly better empirical performance than Eulerian and Progressive schemes. These approaches, respectively, require spatial gradient computations and bootstrapping, leading to training instability and reduced performance.
+            </li>
+          </ol>
         </div>
       </div>
     </div>
-    <!--/ Paper video. -->
+    <!--/ Key Contributions -->
   </div>
 </section>
 
@@ -244,104 +199,412 @@
 <section class="section">
   <div class="container is-max-desktop">
 
-    <!-- TODO: Add additional result sections here. You can remove this section or customize it -->
-    <div class="columns is-centered">
-      <!-- Method Visualization. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Method</h2>
-          <p>
-            Describe your method here. You can include visualizations, diagrams, or videos
-            that help explain your approach.
-          </p>
-          <video id="method-video" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/method.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <!-- Results. -->
-      <div class="column">
+    <!-- Results -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
         <h2 class="title is-3">Results</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              Highlight key qualitative or quantitative results here.
-            </p>
-            <video id="results-video" controls playsinline height="100%">
-              <source src="./static/videos/results.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- TODO: Interpolation slider section - customize or remove -->
-    <!-- This requires images in static/interpolation/stacked/ directory -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Interpolation</h2>
+        <!-- Image Generation Section -->
+        <h3 class="title is-4" style="margin-top: 3em;">Unconditional Image Generation: CIFAR-10, CelebA-64, AFHQ-64</h3>
 
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Interactive Slider</h3>
         <div class="content has-text-justified">
           <p>
-            Use the slider to interpolate between different states or viewpoints.
-            You'll need to generate interpolation frames and place them in static/interpolation/stacked/.
+            <b>Stability.</b>  In all cases tried, the Eulerian losses were highly unstable without significant engineering effort to stabilize training. More details can be found in the paper, but this can be traced to the appearance of the spatial Jacobian in the loss. Lagrangian and progressive methods were far more stable, so we compare only those here.
           </p>
         </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
-          </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
+
+        <div class="content has-text-justified">
+          <p>
+            <b>Quantitative Performance.</b> LSD achieves the best FID scores across all datasets and step counts.
+            On CIFAR-10, LSD reaches FID 3.33 at 8 steps, while PSD variants require 16 steps to approach similar quality.
+            The advantage is even more pronounced on CelebA-64 and AFHQ-64.
+            PSD-U and PSD-M denote different sampling schemes for the intermediate point $u$, which can be taken to be uniformly distributed between $s$ and $t$ or at the midpoint $u = (s+t)/2$.
+          </p>
+        </div>
+
+        <table class="table" style="margin: 0 auto 2em auto;">
+          <thead>
+            <tr>
+              <th>Dataset</th>
+              <th>Method</th>
+              <th>1 Step</th>
+              <th>2 Steps</th>
+              <th>4 Steps</th>
+              <th>8 Steps</th>
+              <th>16 Steps</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #f5f5f5;">
+              <td rowspan="3" style="vertical-align: middle;"><b>CIFAR-10</b><br>(FID ↓)</td>
+              <td><b>LSD</b></td>
+              <td><b>8.10</b></td>
+              <td><b>4.37</b></td>
+              <td><b>3.34</b></td>
+              <td><b>3.33</b></td>
+              <td><b>3.57</b></td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+              <td>PSD-M</td>
+              <td>12.81</td>
+              <td>8.43</td>
+              <td>5.96</td>
+              <td>5.07</td>
+              <td>4.64</td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+              <td>PSD-U</td>
+              <td>13.61</td>
+              <td>7.95</td>
+              <td>6.03</td>
+              <td>5.32</td>
+              <td>5.16</td>
+            </tr>
+            <tr>
+              <td rowspan="3" style="vertical-align: middle;"><b>CelebA-64</b><br>(FID ↓)</td>
+              <td><b>LSD</b></td>
+              <td><b>12.22</b></td>
+              <td><b>5.74</b></td>
+              <td><b>3.18</b></td>
+              <td><b>2.18</b></td>
+              <td><b>1.96</b></td>
+            </tr>
+            <tr>
+              <td>PSD-M</td>
+              <td>19.64</td>
+              <td>11.75</td>
+              <td>7.89</td>
+              <td>6.06</td>
+              <td>5.09</td>
+            </tr>
+            <tr>
+              <td>PSD-U</td>
+              <td>18.81</td>
+              <td>11.02</td>
+              <td>7.47</td>
+              <td>6.00</td>
+              <td>5.63</td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+              <td rowspan="3" style="vertical-align: middle;"><b>AFHQ-64</b><br>(FID ↓)</td>
+              <td><b>LSD</b></td>
+              <td><b>11.19</b></td>
+              <td><b>7.78</b></td>
+              <td><b>7.00</b></td>
+              <td><b>5.89</b></td>
+              <td><b>5.61</b></td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+              <td>PSD-M</td>
+              <td>18.86</td>
+              <td>14.75</td>
+              <td>14.40</td>
+              <td>13.26</td>
+              <td>11.07</td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+              <td>PSD-U</td>
+              <td>14.50</td>
+              <td>10.73</td>
+              <td>10.99</td>
+              <td>12.02</td>
+              <td>11.47</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="content has-text-justified">
+          <p>
+            <b>Qualitative Results.</b> Progressive refinement comparison across methods, whereby we systematically increase the number of steps for a fixed random seed.
+            All methods improve with more sampling steps. LSD produces higher quality samples at every step count compared to PSD variants.
+            Each row shows samples at $N \in \{1, 2, 4, 8, 16\}$ steps from the same random seed.
+          </p>
+        </div>
+
+        <div style="margin: 2em auto; max-width: 90%;">
+          <!-- CIFAR-10 -->
+          <p class="has-text-centered" style="margin-bottom: 1em; font-size: 1.1em;"><b>CIFAR-10</b></p>
+          <div style="display: flex; gap: 1em; align-items: start; margin-bottom: 3em;">
+            <div style="position: relative; flex: 1;">
+              <div style="position: absolute; left: -2.5em; top: -0.3em; bottom: 2.5em; display: flex; flex-direction: column; justify-content: space-around; font-size: 0.75em; font-weight: 500;">
+                <div>N=1</div>
+                <div>N=2</div>
+                <div>N=4</div>
+                <div>N=8</div>
+                <div>N=16</div>
+              </div>
+              <img src="./static/images/cifar10_PSD-M_best.png" alt="CIFAR-10 PSD-M" style="width: 100%; display: block;">
+              <p class="has-text-centered" style="margin-top: 0.5em; font-size: 0.9em;"><b>PSD-M</b></p>
             </div>
-            <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
+            <div style="position: relative; flex: 1;">
+              <img src="./static/images/cifar10_PSD-U_best.png" alt="CIFAR-10 PSD-U" style="width: 100%; display: block;">
+              <p class="has-text-centered" style="margin-top: 0.5em; font-size: 0.9em;"><b>PSD-U</b></p>
+            </div>
+            <div style="position: relative; flex: 1;">
+              <img src="./static/images/cifar10_LSD_best.png" alt="CIFAR-10 LSD" style="width: 100%; display: block;">
+              <p class="has-text-centered" style="margin-top: 0.5em; font-size: 0.9em;"><b>LSD</b></p>
+            </div>
           </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
+
+          <!-- CelebA-64 -->
+          <p class="has-text-centered" style="margin-bottom: 1em; font-size: 1.1em;"><b>CelebA-64</b></p>
+          <div style="display: flex; gap: 1em; align-items: start; margin-bottom: 3em;">
+            <div style="position: relative; flex: 1;">
+              <div style="position: absolute; left: -2.5em; top: -0.3em; bottom: 2.5em; display: flex; flex-direction: column; justify-content: space-around; font-size: 0.75em; font-weight: 500;">
+                <div>N=1</div>
+                <div>N=2</div>
+                <div>N=4</div>
+                <div>N=8</div>
+                <div>N=16</div>
+              </div>
+              <img src="./static/images/celeba64_PSD-M_best.png" alt="CelebA-64 PSD-M" style="width: 100%; display: block;">
+              <p class="has-text-centered" style="margin-top: 0.5em; font-size: 0.9em;"><b>PSD-M</b></p>
+            </div>
+            <div style="position: relative; flex: 1;">
+              <img src="./static/images/celeba64_PSD-U_best.png" alt="CelebA-64 PSD-U" style="width: 100%; display: block;">
+              <p class="has-text-centered" style="margin-top: 0.5em; font-size: 0.9em;"><b>PSD-U</b></p>
+            </div>
+            <div style="position: relative; flex: 1;">
+              <img src="./static/images/celeba64_LSD_best.png" alt="CelebA-64 LSD" style="width: 100%; display: block;">
+              <p class="has-text-centered" style="margin-top: 0.5em; font-size: 0.9em;"><b>LSD</b></p>
+            </div>
+          </div>
+
+          <!-- AFHQ-64 -->
+          <p class="has-text-centered" style="margin-bottom: 1em; font-size: 1.1em;"><b>AFHQ-64</b></p>
+          <div style="display: flex; gap: 1em; align-items: start;">
+            <div style="position: relative; flex: 1;">
+              <div style="position: absolute; left: -2.5em; top: -0.3em; bottom: 2.5em; display: flex; flex-direction: column; justify-content: space-around; font-size: 0.75em; font-weight: 500;">
+                <div>N=1</div>
+                <div>N=2</div>
+                <div>N=4</div>
+                <div>N=8</div>
+                <div>N=16</div>
+              </div>
+              <img src="./static/images/afhq64_PSD-M_best.png" alt="AFHQ-64 PSD-M" style="width: 100%; display: block;">
+              <p class="has-text-centered" style="margin-top: 0.5em; font-size: 0.9em;"><b>PSD-M</b></p>
+            </div>
+            <div style="position: relative; flex: 1;">
+              <img src="./static/images/afhq64_PSD-U_best.png" alt="AFHQ-64 PSD-U" style="width: 100%; display: block;">
+              <p class="has-text-centered" style="margin-top: 0.5em; font-size: 0.9em;"><b>PSD-U</b></p>
+            </div>
+            <div style="position: relative; flex: 1;">
+              <img src="./static/images/afhq64_LSD_best.png" alt="AFHQ-64 LSD" style="width: 100%; display: block;">
+              <p class="has-text-centered" style="margin-top: 0.5em; font-size: 0.9em;"><b>LSD</b></p>
+            </div>
           </div>
         </div>
-        <br/>
-        <!--/ Interpolating. -->
 
+        <!-- Checkerboard Section -->
+        <h3 class="title is-4" style="margin-top: 3em;">Checkerboard: Sharp Boundaries and Multimodality</h3>
+        <div class="content has-text-justified">
+          <p>
+            On the synthetic 2D checkerboard dataset -- a paradigmatic model of multimodality and sharp boundaries -- LSD captures the mode structure most accurately.
+            Here, we found that ESD remained stable, likely due to the simpler network parameterization in this low-dimensional setting.
+            ESD and PSD introduce artifacts or blur boundaries at low step counts. LSD achieves the best KL divergence across 1, 2, 4, and 8 steps.
+          </p>
+        </div>
+
+        <table class="table" style="margin: 1em auto 2em auto;">
+          <caption style="caption-side: top; text-align: center; margin-bottom: 0.5em; font-weight: 600;">KL Divergence (↓)</caption>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>1 Step</th>
+              <th>2 Steps</th>
+              <th>4 Steps</th>
+              <th>8 Steps</th>
+              <th>16 Steps</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #f5f5f5;">
+              <td><b>LSD</b></td>
+              <td><b>0.0864</b></td>
+              <td><b>0.0765</b></td>
+              <td><b>0.0708</b></td>
+              <td><b>0.0699</b></td>
+              <td>0.0710</td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+              <td>ESD</td>
+              <td>0.0983</td>
+              <td>0.0921</td>
+              <td>0.0834</td>
+              <td>0.0816</td>
+              <td>0.0751</td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+              <td>PSD-M</td>
+              <td>0.1456</td>
+              <td>0.0891</td>
+              <td>0.0812</td>
+              <td>0.0717</td>
+              <td>0.0689</td>
+            </tr>
+            <tr style="background-color: #f5f5f5;">
+              <td>PSD-U</td>
+              <td>0.1113</td>
+              <td>0.1067</td>
+              <td>0.0747</td>
+              <td>0.0727</td>
+              <td><b>0.0679</b></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <img src="./static/images/checker_full.png" alt="Checkerboard results" style="width: 100%;">
       </div>
     </div>
-    <!--/ Animation. -->
+    <!--/ Results -->
+
+  </div>
+</section>
 
 
-    <!-- Related Links. -->
-    <div class="columns is-centered">
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Method -->
+    <div class="columns is-centered has-text-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
+        <h2 class="title is-3">Theory & Framework</h2>
 
         <div class="content has-text-justified">
-          <!-- TODO: Update with links to related work, concurrent work, or relevant resources -->
+          <h3 class="title is-4">The Tangent Condition</h3>
           <p>
-            This section can include links to related papers, concurrent work, or other relevant resources.
+            The flow map $X_{s,t}$ satisfies the defining property (or jump condition) that $X_{s,t}(x_s) = x_t$ for any trajectory $x_T$
+            of the probability flow $\dot{x}_t = b_t(x_t)$. One of our key insights is that the velocity field $b_t$ is implicitly encoded
+            in the flow map itself:
           </p>
-          <p>
-            <a href="https://example.com/related-work-1">Related Work 1</a>: Brief description of how this work relates to yours.
+
+          <p style="background-color: #fff9e6; padding: 1em; border-left: 4px solid #f39c12; margin: 1em 0;">
+            <b>Lemma (Tangent Condition):</b> Let $X_{s,t}$ denote the flow map. Then,
+            $$\lim_{s\to t}\partial_t X_{s,t}(x) = b_t(x) \quad \forall t \in [0,1], \; \forall x \in \mathbb{R}^d.$$
           </p>
+
           <p>
-            <a href="https://example.com/related-work-2">Related Work 2</a>: Brief description of how this work relates to yours.
+            To exploit this algorithmically, we parameterize the flow map as
+            $$X_{s,t}(x) = x + (t-s)v_{s,t}(x)$$
+            which automatically enforces the boundary condition $X_{s,s}(x) = x$. Taking the limit as $s \to t$:
+            $$\lim_{s\to t}\partial_t X_{s,t}(x) = \lim_{s\to t}\partial_t[x + (t-s)v_{s,t}(x)] = v_{t,t}(x)$$
+            Combined with the tangent condition, we obtain the fundamental relation:
+          </p>
+
+          <p style="background-color: #e8f5e9; padding: 1em; border-left: 4px solid #4caf50; margin: 1em 0; text-align: center;">
+            $$v_{t,t}(x) = b_t(x).$$
+          </p>
+
+          <p>
+            This shows that $v_{t,t}$ on the diagonal recovers the velocity field, which we can learn via standard flow matching.
+            The challenge is then learning $v_{s,t}$ <i>off the diagonal</i> ($s \neq t$), which we address through self-distillation.
+          </p>
+        </div>
+
+        <div class="content has-text-justified" style="margin-top: 2em;">
+          <h3 class="title is-4">Characterizing the Map</h3>
+          <p>
+            Given the parameterization $X_{s,t}(x) = x + (t-s)v_{s,t}(x)$ and the tangent condition $v_{t,t}(x) = b_t(x)$,
+            we can characterize the flow map through three equivalent conditions:
+          </p>
+
+          <p style="background-color: #f0f8ff; padding: 1em; border-left: 4px solid #2970CC; margin: 1em 0;">
+            <b>Proposition (Flow Map Characterizations):</b> Assume $X_{s,t}(x) = x + (t-s)v_{s,t}(x)$ with $v_{t,t}(x) = b_t(x)$.
+            Then $X_{s,t}$ is the flow map if and only if <b>any</b> of the following holds:
+            <br><br>
+            <b>(i) Lagrangian condition:</b>
+            $$\partial_t X_{s,t}(x) = v_{t,t}(X_{s,t}(x)) \quad \forall (s,t,x) \in [0,1]^2 \times \mathbb{R}^d$$
+            <br>
+            <b>(ii) Eulerian condition:</b>
+            $$\partial_s X_{s,t}(x) + \nabla X_{s,t}(x)v_{s,s}(x) = 0 \quad \forall (s,t,x) \in [0,1]^2 \times \mathbb{R}^d$$
+            <br>
+            <b>(iii) Semigroup condition:</b>
+            $$X_{u,t}(X_{s,u}(x)) = X_{s,t}(x) \quad \forall (s,u,t,x) \in [0,1]^3 \times \mathbb{R}^d$$
+          </p>
+
+          <p>
+            Each condition provides a different perspective on the flow map.
+            The Lagrangian follows trajectories forward in time,
+            the Eulerian describes transport via a partial differential equation,
+            and the semigroup expresses composition of jumps.
+            These yield three distinct self-distillation algorithms, as we now discuss.
+          </p>
+        </div>
+
+        <div class="content has-text-justified" style="margin-top: 2em;">
+          <h3 class="title is-4">Algorithmic Framework</h3>
+
+          <p style="background-color: #f0f8ff; padding: 1em; border-left: 4px solid #2970CC; margin: 1em 0;">
+            <b>Proposition (Self-Distillation):</b> The flow map $X_{s,t}$ is given by $X_{s,t}(x) = x + (t-s)v_{s,t}(x)$
+            where $v_{s,t}$ is the unique minimizer of
+            $$\mathcal{L}(\hat{v}) = \mathcal{L}_b(\hat{v}) + \mathcal{L}_{\text{dist}}(\hat{v})$$
+            Here $\mathcal{L}_b$ is the flow matching loss on the diagonal:
+            $$\mathcal{L}_b(\hat{v}) = \int_0^1 \mathbb{E}_{x_0,x_1}\left[|\hat{v}_{t,t}(I_t) - \dot{I}_t|^2\right]dt$$
+            and $\mathcal{L}_{\text{dist}}$ is any of the following three distillation losses:
+            <br><br>
+            <b>Lagrangian Self-Distillation (LSD):</b>
+            $$\mathcal{L}_{\text{LSD}}(\hat{v}) = \int_0^1\int_0^t \mathbb{E}_{x_0,x_1}\left[\left|\partial_t \hat{X}_{s,t}(I_s) - \hat{v}_{t,t}(\hat{X}_{s,t}(I_s))\right|^2\right]ds\,dt$$
+            <br>
+            <b>Eulerian Self-Distillation (ESD):</b>
+            $$\mathcal{L}_{\text{ESD}}(\hat{v}) = \int_0^1\int_0^t \mathbb{E}_{x_0,x_1}\left[\left|\partial_s \hat{X}_{s,t}(I_s) + \nabla \hat{X}_{s,t}(I_s)\hat{v}_{s,s}(I_s)\right|^2\right]ds\,dt$$
+            <br>
+            <b>Progressive Self-Distillation (PSD):</b>
+            $$\mathcal{L}_{\text{PSD}}(\hat{v}) = \int_0^1\int_0^t\int_s^t \mathbb{E}_{x_0,x_1}\left[\left|\hat{X}_{s,t}(I_s) - \hat{X}_{u,t}(\hat{X}_{s,u}(I_s))\right|^2\right]du\,ds\,dt$$
+          </p>
+
+          <p>
+            By converting each characterization above into a training objective, we obtain three self-distillation algorithms
+            that eliminate the need for pre-trained teachers while maintaining the stability of distillation.
+          </p>
+
+          <div style="text-align: center; margin: 2em 0;">
+            <img src="./static/images/training.png" alt="Self-distillation framework" style="width: 55%; max-width: 500px;">
+            <p style="font-size: 0.9em; color: #555; margin-top: 0.8em;">
+              Our plug-and-play approach pairs any distillation objective on the off-diagonal $s \neq t$
+              with flow matching on the diagonal $s=t$.
+            </p>
+          </div>
+
+          <h3 class="title is-4" style="margin-top: 2em;">Controlling Information Flow via Stopgradient</h3>
+
+          <p>
+            In practice, it is useful to control the flow of information from the diagonal ($s=t$) to the off-diagonal ($s \neq t$).
+            We can implement this with the stopgradient operator $\text{sg}(\cdot)$, which treats its argument as constant during backpropagation.
+            This prevents gradient flow through specific terms, enabling us to simulate the setting where we have a pre-trained teacher.
+            It is particularly important to avoid backpropagating through the spatial gradient $\nabla \hat{X}_{s,t}$ in the Eulerian loss,
+            which is often numerically unstable and requires increased memory.
+          </p>
+
+          <p style="margin-top: 1em;">
+            The practical losses we recommend with stopgradient are:
+          </p>
+
+          <p style="margin-top: 1em;"><b>Lagrangian Self-Distillation (LSD):</b></p>
+          <div style="background-color: #f5f5f5; padding: 1em; margin: 0.5em 0; overflow-x: auto;">
+            $$\mathcal{L}_{\text{LSD}}(\hat{v}) = \int_0^1\int_0^t \mathbb{E}_{x_0,x_1}\left[\left|\partial_t \hat{X}_{s,t}(I_s) - \text{sg}(\hat{v}_{t,t}(\hat{X}_{s,t}(I_s)))\right|^2\right]ds\,dt$$
+          </div>
+
+          <p style="margin-top: 1em;"><b>Eulerian Self-Distillation (ESD):</b></p>
+          <div style="background-color: #f5f5f5; padding: 1em; margin: 0.5em 0; overflow-x: auto;">
+            $$\mathcal{L}_{\text{ESD}}(\hat{v}) = \int_0^1\int_0^t \mathbb{E}_{x_0,x_1}\left[\left|\partial_s \hat{X}_{s,t}(I_s) + \text{sg}(\nabla \hat{X}_{s,t}(I_s)\hat{v}_{s,s}(I_s))\right|^2\right]ds\,dt$$
+          </div>
+
+          <p style="margin-top: 1em;"><b>Progressive Self-Distillation (PSD):</b></p>
+          <div style="background-color: #f5f5f5; padding: 1em; margin: 0.5em 0; overflow-x: auto;">
+            $$\mathcal{L}_{\text{PSD}}(\hat{v}) = \int_0^1\int_0^t \mathbb{E}_{p_\gamma}\mathbb{E}_{x_0,x_1}\left[\left|\hat{v}_{s,t}(I_s) - \text{sg}\left((1-\gamma)\hat{v}_{s,u}(I_s) + \gamma\hat{v}_{u,t}(\hat{X}_{s,u}(I_s))\right)\right|^2\right]ds\,dt$$
+          </div>
+
+          Above, we wrote the PSD loss entirely in terms of $\hat{v}$, and introduced $\gamma \in [0, 1]$ defining the intermediate point $u = \gamma s + (1-\gamma) t$. See the appendix of the paper for further details.
+
+          <p style="margin-top: 1.5em;">
+            <b>Recovering Known Methods:</b> We show in the appendix of our paper that all known algorithms for training consistency models
+            (including consistency training, consistency distillation, shortcut models, align your flow, and mean flow)
+            can be recovered via an appropriate choice of stopgradient placement in our framework.
           </p>
         </div>
       </div>
     </div>
-    <!--/ Related Links. -->
+
 
   </div>
 </section>
@@ -350,12 +613,11 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <!-- TODO: Update with your paper's BibTeX citation -->
-    <pre><code>@article{yourname2024yourproject,
-  author    = {Author Name 1 and Author Name 2 and Author Name 3},
-  title     = {Your Project Title},
-  journal   = {Conference/Journal Name},
-  year      = {2024},
+    <pre><code>@article{boffi2025flowmaps,
+  author    = {Nicholas M. Boffi and Michael S. Albergo and Eric Vanden-Eijnden},
+  title     = {How to build a consistency model: Learning flow maps via self-distillation},
+  journal   = {arXiv preprint arXiv:2505.18825},
+  year      = {2025},
 }</code></pre>
   </div>
 </section>
@@ -364,12 +626,7 @@
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <!-- TODO: Update with links to your paper PDF and GitHub -->
-      <a class="icon-link"
-         href="./static/paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/YOUR_USERNAME" class="external-link">
+      <a class="icon-link" href="https://github.com/nmboffi/flow-maps" class="external-link">
         <i class="fab fa-github"></i>
       </a>
     </div>
