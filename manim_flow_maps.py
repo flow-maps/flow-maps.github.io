@@ -27,7 +27,7 @@ class Part1_FlowMatching(Scene):
         """Part 1: Illustrate standard flow matching with curved ODE trajectories"""
 
         # Section title
-        section_title = Text("Flow Matching", font_size=36)
+        section_title = Text("Background: Flow Matching", font_size=36)
         section_subtitle = Text("with stochastic interpolants", font_size=24, color=GRAY)
         section_subtitle.next_to(section_title, DOWN, buff=0.2)
         title_group = VGroup(section_title, section_subtitle)
@@ -139,10 +139,6 @@ class Part1_FlowMatching(Scene):
         trajectories.set_z_index(-1)
         dots_t0.set_z_index(1)
 
-        # Animate all curved trajectories at once
-        self.play(*[Create(traj) for traj in trajectories], run_time=2)
-        self.wait(0.5)
-
         # Create moving points that travel along the trajectories
         moving_dots = VGroup(*[
             Dot(axes.c2p(start[0], start[1]), radius=0.04, color="#E0AAFF")
@@ -160,8 +156,13 @@ class Part1_FlowMatching(Scene):
             )
             move_animations.append(MoveAlongPath(moving_dot, path))
 
-        self.play(*[FadeIn(dot) for dot in moving_dots])
-        self.play(*move_animations, run_time=2.5)
+        # Sync trajectory drawing with sample movement
+        self.play(
+            *[FadeIn(dot) for dot in moving_dots],
+            *[Create(traj) for traj in trajectories],
+            *move_animations,
+            run_time=2.5
+        )
         self.wait(0.3)
 
         # Fade out moving dots
@@ -178,26 +179,36 @@ class Part1_FlowMatching(Scene):
 
         # Add conditional expectation and loss
         cond_exp = MathTex(
-            r"b_t(x) = \mathbb{E}[\dot{I}_t \mid I_t = x]",
-            font_size=28
-        ).to_edge(DOWN).shift(UP * 1.6)
+            r"b_t(x) = \mathbb{E}[\dot{I}_t \mid I_t = x], \quad I_t = \alpha(t)x_0 + \beta(t)x_1",
+            font_size=26
+        ).to_edge(DOWN).shift(UP * 1.75)
         self.play(Write(cond_exp))
         self.wait(0.5)
 
         loss_eq = MathTex(
             r"\mathcal{L}(\hat{b}) = \mathbb{E}\left[|\hat{b}_t(I_t) - \dot{I}_t|^2\right]",
             font_size=28
-        ).to_edge(DOWN).shift(UP * 0.9)
+        ).to_edge(DOWN).shift(UP * 1.0)
         self.play(Write(loss_eq))
         self.wait(0.5)
 
         # Add note about expensive ODE solve
         note_text = Text(
-            "highly expressive model class, but requires an expensive differential equation solve for inference!",
-            font_size=22,
+            "highly expressive, but requires an expensive differential equation solve for inference",
+            font_size=24,
             color=WHITE
-        ).to_edge(DOWN).shift(UP * 0.2)
+        ).to_edge(DOWN).shift(UP * 0.5)
         self.play(Write(note_text))
+        self.wait(0.8)
+
+        # Add question about avoiding ODE solve
+        question = Text(
+            "can we avoid this entirely?",
+            font_size=24,
+            color=WHITE,
+            slant=ITALIC
+        ).to_edge(DOWN).shift(UP * 0.1)
+        self.play(Write(question))
         self.wait(1.5)
 
 
@@ -211,7 +222,7 @@ class Part2_FlowMapDefinition(Scene):
 
         # Title and subtitle
         section_title = Text("The Flow Map", font_size=36)
-        section_subtitle = Text("jumping along trajectories", font_size=24, color=GRAY)
+        section_subtitle = Text("the solution operator jumps along trajectories", font_size=22, color=GRAY)
         section_subtitle.next_to(section_title, DOWN, buff=0.2)
         title_group = VGroup(section_title, section_subtitle)
         title_group.to_edge(UP)
@@ -282,7 +293,7 @@ class Part2_FlowMapDefinition(Scene):
 
         # Raise the key question
         question_text = Text(
-            "But how do we learn it?",
+            "but how do we learn it?",
             font_size=28,
             color=WHITE,
             slant=ITALIC
@@ -299,6 +310,16 @@ class Part2_FlowMapDefinition(Scene):
         ).next_to(question_text, DOWN, buff=0.4)
 
         self.play(Write(parameterization))
+        self.wait(1)
+
+        # Add connection text
+        connection_text = Text(
+            "this will let us connect flow maps to flow matching",
+            font_size=24,
+            color=WHITE
+        ).next_to(parameterization, DOWN, buff=0.3)
+
+        self.play(Write(connection_text))
         self.wait(2)
 
 
@@ -353,11 +374,11 @@ class Part3_TangentCondition(Scene):
         self.play(Create(secant))
         self.wait(0.5)
 
-        # Show slope label (positioned lower to avoid overlap)
+        # Show slope label (positioned higher)
         slope_label = MathTex(
             r"\text{slope}_{s,t} = \frac{x_t - x_s}{t - s} = \frac{X_{s,t}(x_s) - x_s}{t - s}",
             font_size=26
-        ).to_edge(DOWN).shift(UP * 1.5)
+        ).to_edge(DOWN).shift(UP * 2.3)
         self.play(Write(slope_label))
         self.wait(0.5)
 
@@ -403,14 +424,32 @@ class Part3_TangentCondition(Scene):
         self.play(Write(tangent_eq))
         self.wait(1)
 
-        # Add note about training like a flow
+        # Add note about training like a flow (moved down to avoid overlap with limit line)
         flow_note = MathTex(
             r"\text{can train } v_{t,t} \text{ like a flow!}",
             font_size=26,
             color=WHITE
-        ).to_edge(DOWN).shift(UP * 0.3)
+        ).to_edge(DOWN).shift(UP * 1.1)
         self.play(Write(flow_note))
-        self.wait(1.5)
+        self.wait(1)
+
+        # Add question about learning off-diagonal (lowercase "but")
+        off_diag_question = MathTex(
+            r"\text{but how do we learn } v_{s,t} \text{ for } s \neq t?",
+            font_size=26,
+            color=WHITE
+        ).to_edge(DOWN).shift(UP * 0.65)
+        self.play(Write(off_diag_question))
+        self.wait(0.8)
+
+        # Answer with more breathing space (lowercase "we")
+        off_diag_answer = Text(
+            "we give three distinct ways by combining flow matching with properties of the flow map",
+            font_size=22,
+            color=WHITE
+        ).to_edge(DOWN).shift(UP * 0.15)
+        self.play(Write(off_diag_answer))
+        self.wait(2)
 
 
 # ============================================================================
@@ -494,15 +533,15 @@ class Part4_EulerianLoss(Scene):
             "in the limit, this recovers the loss",
             font_size=24,
             color=WHITE
-        ).to_edge(DOWN).shift(UP * 1.2)
+        ).to_edge(DOWN).shift(UP * 1.4)
         self.play(Write(limit_text))
         self.wait(0.5)
 
-        # Show objective at bottom
+        # Show objective at bottom with underbraces (excluding || from underbraces, using \big|)
         objective = MathTex(
-            r"\mathcal{L}_{\text{ESD}}(\hat{v}) = \mathbb{E}\left[\left|\partial_s \hat{X}_{s,t}(I_t) + \nabla \hat{X}_{s,t}(I_t) \hat{v}_{t,t}(I_t)\right|^2 + \left|\hat{v}_{t,t}(I_t) - \dot{I}_t\right|^2\right]",
-            font_size=24
-        ).to_edge(DOWN).shift(UP * 0.3)
+            r"\mathcal{L}_{\text{ESD}}(\hat{v}) = \mathbb{E}\big[\big|\underbrace{\partial_s \hat{X}_{s,t}(I_s) + \nabla \hat{X}_{s,t}(I_s) \hat{v}_{s,s}(I_s)}_{\text{off-diagonal self-distillation}}\big|^2 + \big|\underbrace{\hat{v}_{t,t}(I_t) - \dot{I}_t}_{\text{flow matching}}\big|^2\big]",
+            font_size=22
+        ).to_edge(DOWN).shift(UP * 0.15)
         self.play(Write(objective))
         self.wait(1.5)
 
@@ -595,15 +634,15 @@ class Part5_ProgressiveLoss(Scene):
             "this leads to the loss",
             font_size=24,
             color=WHITE
-        ).to_edge(DOWN).shift(UP * 1.2)
+        ).to_edge(DOWN).shift(UP * 1.4)
         self.play(Write(limit_text))
         self.wait(0.5)
 
-        # Show objective at bottom
+        # Show objective at bottom with underbraces (excluding || from underbraces, using \big|)
         objective = MathTex(
-            r"\mathcal{L}_{\text{PSD}}(\hat{v}) = \mathbb{E}\left[\left|\hat{X}_{s,t}(I_t) - \hat{X}_{u,t}(\hat{X}_{s,u}(I_t))\right|^2 + \left|\hat{v}_{t,t}(I_t) - \dot{I}_t\right|^2\right]",
-            font_size=24
-        ).to_edge(DOWN).shift(UP * 0.3)
+            r"\mathcal{L}_{\text{PSD}}(\hat{v}) = \mathbb{E}\big[\big|\underbrace{\hat{X}_{s,t}(I_s) - \hat{X}_{u,t}(\hat{X}_{s,u}(I_s))}_{\text{off-diagonal self-distillation}}\big|^2 + \big|\underbrace{\hat{v}_{t,t}(I_t) - \dot{I}_t}_{\text{flow matching}}\big|^2\big]",
+            font_size=22
+        ).to_edge(DOWN).shift(UP * 0.15)
         self.play(Write(objective))
         self.wait(1.5)
 
@@ -698,13 +737,90 @@ class Part6_LagrangianLoss(Scene):
         self.play(Write(limit_text))
         self.wait(0.5)
 
-        # Show objective at bottom
+        # Show objective at bottom with underbraces (excluding || from underbraces, using \big|)
         objective = MathTex(
-            r"\mathcal{L}_{\text{LSD}}(\hat{v}) = \mathbb{E}\left[\left|\partial_t \hat{X}_{s,t}(I_t) - \hat{v}_{t,t}(\hat{X}_{s,t}(I_t))\right|^2 + \left|\hat{v}_{t,t}(I_t) - \dot{I}_t\right|^2\right]",
-            font_size=24
-        ).to_edge(DOWN).shift(UP * 0.3)
+            r"\mathcal{L}_{\text{LSD}}(\hat{v}) = \mathbb{E}\big[\big|\underbrace{\partial_t \hat{X}_{s,t}(I_s) - \hat{v}_{t,t}(\hat{X}_{s,t}(I_s))}_{\text{off-diagonal self-distillation}}\big|^2 + \big|\underbrace{\hat{v}_{t,t}(I_t) - \dot{I}_t}_{\text{flow matching}}\big|^2\big]",
+            font_size=22
+        ).to_edge(DOWN).shift(UP * 0.15)
         self.play(Write(objective))
         self.wait(1.5)
+
+
+# ============================================================================
+# PART 7: Method Comparison
+# ============================================================================
+
+class Part7_MethodComparison(Scene):
+    def construct(self):
+        """Method comparison slide showing advantages/disadvantages of each approach"""
+
+        # Title and subtitle
+        section_title = Text("Method Comparison", font_size=36)
+        section_subtitle = Text("how to choose a loss in practice", font_size=24, color=GRAY)
+        section_subtitle.next_to(section_title, DOWN, buff=0.2)
+        title_group = VGroup(section_title, section_subtitle)
+        title_group.to_edge(UP)
+        self.play(Write(section_title), Write(section_subtitle))
+        self.wait(1)
+
+        # ESD Loss
+        esd_title = Text("Eulerian Self-Distillation", font_size=32, color=WHITE).shift(UP * 1.8)
+        esd_loss = MathTex(
+            r"\mathcal{L}_{\text{ESD}}(\hat{v}) = \mathbb{E}\big[\big|\underbrace{\partial_s \hat{X}_{s,t}(I_s) + \nabla \hat{X}_{s,t}(I_s) \hat{v}_{s,s}(I_s)}_{\text{off-diagonal}}\big|^2 + \big|\underbrace{\hat{v}_{t,t}(I_t) - \dot{I}_t}_{\text{flow matching}}\big|^2\big]",
+            font_size=28
+        ).shift(UP * 0.8)
+        esd_note = Text(
+            "requires spatial Jacobian, which is often unstable!",
+            font_size=28,
+            color="#FF6B6B"  # Red for warning
+        ).move_to(ORIGIN).shift(DOWN * 0.8)
+
+        self.play(Write(esd_title))
+        self.wait(0.3)
+        self.play(Write(esd_loss))
+        self.wait(0.5)
+        self.play(Write(esd_note))
+        self.wait(1.5)
+        self.play(FadeOut(esd_title), FadeOut(esd_loss), FadeOut(esd_note))
+        self.wait(0.3)
+
+        # PSD Loss
+        psd_title = Text("Progressive Self-Distillation", font_size=32, color=WHITE).shift(UP * 1.8)
+        psd_loss = MathTex(
+            r"\mathcal{L}_{\text{PSD}}(\hat{v}) = \mathbb{E}\big[\big|\underbrace{\hat{X}_{s,t}(I_s) - \hat{X}_{u,t}(\hat{X}_{s,u}(I_s))}_{\text{off-diagonal}}\big|^2 + \big|\underbrace{\hat{v}_{t,t}(I_t) - \dot{I}_t}_{\text{flow matching}}\big|^2\big]",
+            font_size=28
+        ).shift(UP * 0.8)
+        psd_note = VGroup(
+            Text("requires bootstrapping, often leading to accumulation", font_size=28, color="#FFB84D"),
+            Text("of errors and distribution shift!", font_size=28, color="#FFB84D")
+        ).arrange(DOWN, center=True, buff=0.1).move_to(ORIGIN).shift(DOWN * 0.8)
+
+        self.play(Write(psd_title))
+        self.wait(0.3)
+        self.play(Write(psd_loss))
+        self.wait(0.5)
+        self.play(Write(psd_note))
+        self.wait(1.5)
+        self.play(FadeOut(psd_title), FadeOut(psd_loss), FadeOut(psd_note))
+        self.wait(0.3)
+
+        # LSD Loss
+        lsd_title = Text("Lagrangian Self-Distillation", font_size=32, color=WHITE).shift(UP * 1.8)
+        lsd_loss = MathTex(
+            r"\mathcal{L}_{\text{LSD}}(\hat{v}) = \mathbb{E}\big[\big|\underbrace{\partial_t \hat{X}_{s,t}(I_s) - \hat{v}_{t,t}(\hat{X}_{s,t}(I_s))}_{\text{off-diagonal}}\big|^2 + \big|\underbrace{\hat{v}_{t,t}(I_t) - \dot{I}_t}_{\text{flow matching}}\big|^2\big]",
+            font_size=28
+        ).shift(UP * 0.8)
+        lsd_note = VGroup(
+            Text("no spatial Jacobian and no bootstrapping", font_size=28, color="#51CF66"),
+            Text("leads to stable training and high accuracy!", font_size=28, color="#51CF66")
+        ).arrange(DOWN, center=True, buff=0.1).move_to(ORIGIN).shift(DOWN * 0.8)
+
+        self.play(Write(lsd_title))
+        self.wait(0.3)
+        self.play(Write(lsd_loss))
+        self.wait(0.5)
+        self.play(Write(lsd_note))
+        self.wait(2)
 
 
 # ============================================================================
@@ -728,7 +844,16 @@ class Part0_Introduction(Scene):
             Text("Eric Vanden-Eijnden (Courant)", font_size=26),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.3).next_to(title, DOWN, buff=0.8)
 
+        tagline = Text(
+            "a systematic framework for learning accelerated generative models",
+            font_size=24,
+            color=GRAY,
+            slant=ITALIC
+        ).next_to(authors, DOWN, buff=0.6)
+
         self.play(Write(title), run_time=1.5)
         self.wait(0.5)
         self.play(Write(authors), run_time=1.5)
+        self.wait(0.5)
+        self.play(Write(tagline), run_time=1)
         self.wait(2)

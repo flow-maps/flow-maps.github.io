@@ -16,6 +16,7 @@ manim -pq${QUALITY} manim_flow_maps.py Part3_TangentCondition
 manim -pq${QUALITY} manim_flow_maps.py Part4_EulerianLoss
 manim -pq${QUALITY} manim_flow_maps.py Part5_ProgressiveLoss
 manim -pq${QUALITY} manim_flow_maps.py Part6_LagrangianLoss
+manim -pq${QUALITY} manim_flow_maps.py Part7_MethodComparison
 
 echo "=========================================="
 echo "All parts rendered successfully!"

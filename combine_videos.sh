@@ -20,6 +20,7 @@ file '${PWD}/${INPUT_DIR}/Part3_TangentCondition.mp4'
 file '${PWD}/${INPUT_DIR}/Part4_EulerianLoss.mp4'
 file '${PWD}/${INPUT_DIR}/Part5_ProgressiveLoss.mp4'
 file '${PWD}/${INPUT_DIR}/Part6_LagrangianLoss.mp4'
+file '${PWD}/${INPUT_DIR}/Part7_MethodComparison.mp4'
 EOF
 
 # Combine using ffmpeg
