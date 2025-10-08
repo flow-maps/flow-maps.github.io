@@ -157,7 +157,7 @@
             Yet despite their promise, these models lack a unified framework for efficient training.
           </p>
           <p>
-            We introduce such a mathematical framework, leading to <b>three algorithmic families</b> for learning flow maps:
+            Building on our 2024 paper introducing the mathematical foundations of flow map learning (Boffi et al. 2024), we develop a comprehensive framework for <b>three algorithmic families</b> for learning flow maps:
             <b>Eulerian</b>, <b>Lagrangian</b>, and <b>Progressive</b> methods.
             Our approach converts any distillation scheme into a direct training algorithm by exploiting the <i>tangent condition</i> -- a simple relation between the flow map and its implicit velocity field. This eliminates the need for pre-trained teacher models while maintaining the training stability of distillation.
           </p>
@@ -613,11 +613,24 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{boffi2025flowmaps,
-  author    = {Nicholas M. Boffi and Michael S. Albergo and Eric Vanden-Eijnden},
-  title     = {How to build a consistency model: Learning flow maps via self-distillation},
-  journal   = {arXiv preprint arXiv:2505.18825},
-  year      = {2025},
+    <pre><code>@misc{boffi2025buildconsistencymodellearning,
+  title={How to build a consistency model: Learning flow maps via self-distillation},
+  author={Nicholas M. Boffi and Michael S. Albergo and Eric Vanden-Eijnden},
+  year={2025},
+  eprint={2505.18825},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
+  url={https://arxiv.org/abs/2505.18825},
+}
+
+@misc{boffi2025flowmapmatchingstochastic,
+  title={Flow map matching with stochastic interpolants: A mathematical framework for consistency models},
+  author={Nicholas M. Boffi and Michael S. Albergo and Eric Vanden-Eijnden},
+  year={2025},
+  eprint={2406.07507},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
+  url={https://arxiv.org/abs/2406.07507},
 }</code></pre>
   </div>
 </section>
